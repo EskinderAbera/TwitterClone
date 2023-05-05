@@ -7,7 +7,7 @@ function IconButton(props: {
 }) {
   return (
     <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
-      <EvilIcons size={28} {...props} />
+      <EvilIcons size={28} {...props} color="gray" />
       <Text style={{ fontSize: 12, color: "gray" }}>{props.text}</Text>
     </View>
   );
