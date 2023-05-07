@@ -30,7 +30,12 @@ export default function NewTweet() {
   const colorScheme = useColorScheme();
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView
+      style={{
+        backgroundColor: colorScheme === "dark" ? "black" : "white",
+        flex: 1,
+      }}
+    >
       <View style={styles.container} darkColor="rgba(255,255,255,0.05)">
         <View style={styles.buttonContainer}>
           <Link href={"../"} style={{ fontSize: 18 }}>
