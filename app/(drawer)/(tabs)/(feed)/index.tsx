@@ -1,7 +1,9 @@
 import { StyleSheet, FlatList, Pressable } from "react-native";
 import { Link, useRouter } from "expo-router";
-import Tweet from "../../../components/Tweet";
-import tweets from "../../../assets/data/tweets";
+import Tweet from "../../../../components/Tweet";
+import tweets from "../../../../assets/data/tweets";
+// import Tweet from "../../../../../components/Tweet";
+// import tweets from "../../../../assets/data/tweets";
 import { Entypo } from "@expo/vector-icons";
 
 export default function TabOneScreen() {

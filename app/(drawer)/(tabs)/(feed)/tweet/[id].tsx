@@ -1,6 +1,6 @@
-import { Text } from "../../components/Themed";
-import Tweet from "../../components/Tweet";
-import tweets from "../../assets/data/tweets";
+import { Text } from "../../../../../components/Themed";
+import Tweet from "../../../../../components/Tweet";
+import tweets from "../../../../../assets/data/tweets";
 import { useNavigation, useSearchParams } from "expo-router";
 
 export default function TweetScreen() {
