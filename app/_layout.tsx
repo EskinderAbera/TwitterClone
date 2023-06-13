@@ -52,6 +52,14 @@ function RootLayoutNav() {
           value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
         >
           <Stack>
+            <Stack.Screen
+              name="(auth)/signIn"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="(auth)/authenticate"
+              options={{ title: "Confirm" }}
+            />
             <Stack.Screen name="(drawer)" options={{ headerShown: false }} />
             <Stack.Screen
               name="new-tweet"
