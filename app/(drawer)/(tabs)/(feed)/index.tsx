@@ -41,11 +41,7 @@ export default function TabOneScreen() {
 
   return (
     <>
-      <FlatList
-        inverted
-        data={data}
-        renderItem={({ item }) => <Tweet tweet={item} />}
-      />
+      <FlatList data={data} renderItem={({ item }) => <Tweet tweet={item} />} />
       <Pressable
         style={styles.floatingButton}
         onPress={() => router.push("/new-tweet")}

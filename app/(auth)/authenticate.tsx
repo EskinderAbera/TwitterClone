@@ -10,7 +10,7 @@ export default function Authenticate() {
   const [code, setCode] = useState("");
   const { email } = useSearchParams();
 
-  const { setAuthToken } = useAuth();
+  const { updateAuthToken } = useAuth();
 
   const { mutateAsync } = useMutation({
     mutationFn: authenticate,
@@ -22,7 +22,7 @@ export default function Authenticate() {
     }
     try {
       const res = await mutateAsync({ email, emailToken: code });
-      setAuthToken(res.authToken);
+      await updateAuthToken(res.authToken);
     } catch (error) {
       Alert.alert(error.message as string);
     }
