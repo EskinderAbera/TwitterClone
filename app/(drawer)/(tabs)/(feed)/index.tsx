@@ -5,7 +5,7 @@ import {
   ActivityIndicator,
   Text,
 } from "react-native";
-import { useRouter } from "expo-router";
+import { useRouter, useSegments } from "expo-router";
 import Tweet from "../../../../components/Tweet";
 // import tweets from "../../../../assets/data/tweets";
 
@@ -20,6 +20,8 @@ export default function TabOneScreen() {
     queryKey: ["tweets"],
     queryFn: listTweets,
   });
+
+  const segment = useSegments();
   // const [tweets, setTweets] = useState<[]>([]);
 
   // useEffect(() => {

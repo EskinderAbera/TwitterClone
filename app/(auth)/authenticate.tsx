@@ -1,15 +1,31 @@
 import { useState } from "react";
 import { Text, View } from "../../components/Themed";
-import { Pressable, TextInput, StyleSheet } from "react-native";
+import { Pressable, TextInput, StyleSheet, Alert } from "react-native";
 import { useSearchParams } from "expo-router";
+import { useMutation } from "@tanstack/react-query";
+import { authenticate } from "../../lib/api/auth";
+import { useAuth } from "../../context/AuthContext";
 
 export default function Authenticate() {
   const [code, setCode] = useState("");
-
   const { email } = useSearchParams();
 
+  const { setAuthToken } = useAuth();
+
+  const { mutateAsync } = useMutation({
+    mutationFn: authenticate,
+  });
+
   const onConfirm = async () => {
-    console.warn("Authenticate", email, code);
+    if (typeof email !== "string") {
+      return;
+    }
+    try {
+      const res = await mutateAsync({ email, emailToken: code });
+      setAuthToken(res.authToken);
+    } catch (error) {
+      Alert.alert(error.message as string);
+    }
   };
   return (
     <View style={styles.container}>

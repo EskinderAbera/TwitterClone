@@ -1,15 +1,25 @@
 import { useState } from "react";
 import { Text, View } from "../../components/Themed";
-import { Pressable, TextInput, StyleSheet } from "react-native";
+import { Pressable, TextInput, StyleSheet, Alert } from "react-native";
 import { useRouter } from "expo-router";
+import { useMutation } from "@tanstack/react-query";
+import { login } from "../../lib/api/auth";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const router = useRouter();
 
+  const { mutateAsync } = useMutation({
+    mutationFn: login,
+  });
+
   const onSignIn = async () => {
-    console.warn("signIn", email);
-    router.push({ pathname: "/authenticate", params: { email } });
+    try {
+      await mutateAsync({ email });
+      router.push({ pathname: "/authenticate", params: { email } });
+    } catch (error) {
+      Alert.alert("error occured");
+    }
   };
 
   return (
