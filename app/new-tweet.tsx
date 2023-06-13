@@ -4,11 +4,14 @@ import {
   TextInput,
   TouchableOpacity,
   useColorScheme,
+  ActivityIndicator,
 } from "react-native";
 import { View, Text } from "../components/Themed";
 import React, { useState } from "react";
 import { Link, useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createTweet } from "../lib/api/tweets";
 
 const user = {
   id: "u1",
@@ -22,9 +25,23 @@ export default function NewTweet() {
   const [text, setText] = useState<string>("");
   const router = useRouter();
 
-  const onTweetPress = () => {
-    setText("");
-    router.back();
+  const queryClient = useQueryClient();
+
+  const { mutateAsync, isLoading, isError, error } = useMutation({
+    mutationFn: createTweet,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tweets"] });
+    },
+  });
+
+  const onTweetPress = async () => {
+    try {
+      await mutateAsync({ content: text });
+      setText("");
+      router.back();
+    } catch (error) {
+      console.log("problem", error.message);
+    }
   };
 
   const colorScheme = useColorScheme();
@@ -41,6 +58,7 @@ export default function NewTweet() {
           <Link href={"../"} style={{ fontSize: 18 }}>
             <Text>Cancel</Text>
           </Link>
+          {isLoading && <ActivityIndicator />}
           <TouchableOpacity style={styles.button} onPress={onTweetPress}>
             <Text style={styles.buttonText}>Tweet</Text>
           </TouchableOpacity>
@@ -59,6 +77,7 @@ export default function NewTweet() {
             placeholderTextColor={colorScheme === "dark" ? "white" : "black"}
           />
         </View>
+        {/* {isError && <Text>Error: {error.message}</Text>} */}
       </View>
     </SafeAreaView>
   );
