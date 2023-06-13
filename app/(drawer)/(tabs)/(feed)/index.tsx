@@ -1,19 +1,45 @@
-import { StyleSheet, FlatList, Pressable } from "react-native";
-import { Link, useRouter } from "expo-router";
+import {
+  StyleSheet,
+  FlatList,
+  Pressable,
+  ActivityIndicator,
+  Text,
+} from "react-native";
+import { useRouter } from "expo-router";
 import Tweet from "../../../../components/Tweet";
-import tweets from "../../../../assets/data/tweets";
-// import Tweet from "../../../../../components/Tweet";
 // import tweets from "../../../../assets/data/tweets";
+
 import { Entypo } from "@expo/vector-icons";
+import { useEffect, useState } from "react";
+import { listTweets } from "../../../../lib/api/tweets";
+import { useQuery } from "@tanstack/react-query";
 
 export default function TabOneScreen() {
   const router = useRouter();
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["tweets"],
+    queryFn: listTweets,
+  });
+  // const [tweets, setTweets] = useState<[]>([]);
+
+  // useEffect(() => {
+  //   const fetchTweets = async () => {
+  //     const res = await listTweets();
+  //     setTweets(res);
+  //   };
+  //   fetchTweets();
+  // }, []);
+  if (isLoading) {
+    return <ActivityIndicator />;
+  }
+
+  // if (error) {
+  //   return <Text>{error}</Text>;
+  // }
+
   return (
     <>
-      <FlatList
-        data={tweets}
-        renderItem={({ item }) => <Tweet tweet={item} />}
-      />
+      <FlatList data={data} renderItem={({ item }) => <Tweet tweet={item} />} />
       <Pressable
         style={styles.floatingButton}
         onPress={() => router.push("/new-tweet")}
