@@ -12,6 +12,7 @@ import { Link, useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createTweet } from "../lib/api/tweets";
+import { TweetType } from "../types";
 
 const user = {
   id: "u1",
@@ -29,8 +30,12 @@ export default function NewTweet() {
 
   const { mutateAsync, isLoading, isError, error } = useMutation({
     mutationFn: createTweet,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["tweets"] });
+    onSuccess: (data) => {
+      // queryClient.invalidateQueries({ queryKey: ["tweets"] });
+      queryClient.setQueriesData(["tweets"], (existingTweets: unknown) => [
+        ...(existingTweets as Array<TweetType>),
+        data,
+      ]);
     },
   });
 
@@ -40,7 +45,7 @@ export default function NewTweet() {
       setText("");
       router.back();
     } catch (error) {
-      console.log("problem", error.message);
+      console.log("problem");
     }
   };
 
